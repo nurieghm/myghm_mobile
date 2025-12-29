@@ -1,0 +1,35 @@
+import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
+import 'package:myghm_mobile/features/splash/data/models/check_app_version_model.dart';
+import '../../../../core/env/env.dart';
+import '../../../../core/exceptions/app_exception.dart';
+import '../../../../core/services/http/http_client_service.dart';
+
+abstract class CheckAppVersionDatasource {
+  Future<CheckAppVersionModel> getAppVersion();
+}
+
+@LazySingleton(as: CheckAppVersionDatasource)
+class CheckAppVersionDatasourceImpl implements CheckAppVersionDatasource {
+  final HttpClientService httpClientService;
+
+  CheckAppVersionDatasourceImpl({
+    @Named('base') required this.httpClientService,
+  });
+
+  @override
+  Future<CheckAppVersionModel> getAppVersion() async {
+    try {
+      final response = await httpClientService.post(
+        path: '${Env.baseEndpoint}check-version/',
+        data: {'version_id': 16},
+        options: Options(
+          validateStatus: (status) => status != null && status < 500,
+        ),
+      );
+      return CheckAppVersionModel.fromJson(response.data);
+    } catch (e) {
+      throw ServerException(error: e, message: e.toString());
+    }
+  }
+}

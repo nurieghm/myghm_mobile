@@ -2,6 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <!-- Izin lokasi saat aplikasi digunakan -->
+   <key>NSLocationWhenInUseUsageDescription</key>
+   <string>Aplikasi membutuhkan akses lokasi untuk menampilkan informasi kota Anda.</string>
+
+    <!-- Opsional: jika ingin akses lokasi selalu (background) -->
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>Aplikasi membutuhkan akses lokasi untuk menampilkan informasi kota Anda bahkan saat aplikasi berjalan di latar belakang.</string>
+
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
