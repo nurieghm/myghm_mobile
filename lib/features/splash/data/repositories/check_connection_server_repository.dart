@@ -25,12 +25,12 @@ class CheckConnectionServerRepositoryImpl
       final result = await checkconnectionserverdatasource
           .getConnectionServer();
       return Right(result);
-    } on ServerException catch (e) {
-      return Left(ServerException(code: e.code, message: e.message));
     } on InternetConnectionException catch (e) {
       return Left(
         InternetConnectionException(code: e.code, message: e.message),
       );
+    } on ServerException catch (e) {
+      return Left(ServerException(code: e.code, message: e.message));
     } on DefaultAppException catch (e) {
       return Left(DefaultAppException(code: e.code, message: e.message));
     }

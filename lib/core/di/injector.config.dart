@@ -32,8 +32,6 @@ import '../../features/splash/domain/usecases/check_connection_server_usecase.da
     as _i282;
 import '../../features/splash/domain/usecases/check_device_usecase.dart'
     as _i565;
-import '../../features/splash/domain/usecases/check_internet_usecase.dart'
-    as _i860;
 import '../../features/splash/domain/usecases/check_location_permission_usecase.dart'
     as _i247;
 import '../../features/splash/presentation/bloc/splash_bloc.dart' as _i442;
@@ -75,9 +73,6 @@ _i174.GetIt $initGetIt(
       logger: gh<_i974.Logger>(),
       showDebug: gh<bool>(instanceName: 'show_debug'),
     ),
-  );
-  gh.lazySingleton<_i860.CheckInternetUseCase>(
-    () => _i860.CheckInternetUseCase(gh<_i1024.InternetConnectionService>()),
   );
   gh.lazySingleton<_i274.HttpClientService>(
     () => _i274.HttpClientServiceImpl(
@@ -137,7 +132,6 @@ _i174.GetIt $initGetIt(
       gh<_i591.GeolocationService>(),
       gh<_i282.CheckConnectionServer>(),
       gh<_i470.CheckAppVersion>(),
-      gh<_i860.CheckInternetUseCase>(),
       gh<_i565.CheckDeviceUsecase>(),
       gh<_i249.SecureStorageService>(),
     ),

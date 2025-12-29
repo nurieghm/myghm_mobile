@@ -25,6 +25,8 @@ class CheckConnectionServerDatasourceImpl
         path: '${Env.baseEndpoint}index/',
       );
       return CheckConnectionServerModel.fromJson(response.data);
+    } on InternetConnectionException catch (e) {
+      throw InternetConnectionException(code: e.code, message: e.message);
     } catch (e) {
       throw ServerException(error: e, message: e.toString());
     }

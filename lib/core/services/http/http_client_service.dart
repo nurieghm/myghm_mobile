@@ -143,12 +143,9 @@ class HttpClientServiceImpl implements HttpClientService {
       return await request();
     } on InternetConnectionException catch (e, trace) {
       loggerService.error(error: e, stackTrace: trace);
-      rethrow; // Melempar kembali exception
+      rethrow;
     } on DioException catch (e, trace) {
-      loggerService.error(
-        error: e,
-        stackTrace: trace,
-      ); // Menangani kemungkinan null di e.response
+      loggerService.error(error: e, stackTrace: trace);
       final errorMessage = e.response?.data != null
           ? e.response!.data.toString()
           : 'No data received';

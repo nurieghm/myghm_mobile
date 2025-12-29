@@ -6,7 +6,6 @@ import '../../../../core/services/storage/secure_storage.dart';
 import '../../domain/usecases/check_app_version.dart';
 import '../../domain/usecases/check_connection_server_usecase.dart';
 import '../../domain/usecases/check_device_usecase.dart';
-import '../../domain/usecases/check_internet_usecase.dart';
 import 'splash_event.dart';
 import 'splash_state.dart';
 
@@ -16,7 +15,6 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
   final SecureStorageService secureStorage;
 
   final CheckConnectionServer checkConnectionServer;
-  final CheckInternetUseCase checkInternet;
   final CheckAppVersion checkAppVersion;
   final CheckDeviceUsecase checkDevice;
 
@@ -24,7 +22,6 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     this.geolocationService,
     this.checkConnectionServer,
     this.checkAppVersion,
-    this.checkInternet,
     this.checkDevice,
     this.secureStorage,
   ) : super(const SplashState.initial()) {
@@ -37,15 +34,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
             // 1. Cek lokasi
             await geolocationService.getCurrentPosition();
 
-            // 2. Cek internet
-            try {
-              await checkInternet();
-            } on InternetConnectionException {
-              emit(const SplashState.noInternet());
-              return;
-            }
-
-            // 3. Cek koneksi server
+            // 2. Cek koneksi server
             final networkResult = await checkConnectionServer();
             final serverCheck = networkResult.fold((failure) {
               if (failure is InternetConnectionException) {
@@ -61,38 +50,55 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
             }, (_) => true);
             if (!serverCheck) return;
 
-            // 4. Cek versi aplikasi
+            // 3. Cek versi aplikasi
             final versionResult = await checkAppVersion();
             bool versionOk = versionResult.fold((failure) {
+              if (failure is InternetConnectionException) {
+                emit(const SplashState.noInternet());
+                return false;
+              } else if (failure is ServerException) {
+                emit(const SplashState.serverDown());
+                return false;
+              }
               emit(SplashState.failure(failure));
               return false;
             }, (_) => true);
             if (!versionOk) return;
 
-            // 5. Cek device
+            // 4. Cek device
             final deviceResult = await checkDevice();
-            deviceResult.fold((failure) => emit(SplashState.failure(failure)), (
-              device,
-            ) {
-              final token = device.accessToken;
-
-              if (device.registerApps.toUpperCase() == 'N') {
-                emit(const SplashState.deviceNotRegistered());
-                return;
-              }
-              if (device.status.toLowerCase() == "error") {
-                emit(const SplashState.deviceNotRegistered());
-              } else if ((device.expiresIn ?? 0) <= 0) {
-                secureStorage.delete('access_token');
-                emit(const SplashState.deviceTokenExpired());
-              } else {
-                if (token != null) {
-                  secureStorage.write('access_token', token);
+            deviceResult.fold(
+              (failure) {
+                if (failure is InternetConnectionException) {
+                  emit(const SplashState.noInternet());
+                  return false;
+                } else if (failure is ServerException) {
+                  emit(const SplashState.serverDown());
+                  return false;
                 }
+                emit(SplashState.failure(failure));
+              },
+              (device) {
+                final token = device.accessToken;
 
-                emit(const SplashState.deviceValid());
-              }
-            });
+                if (device.registerApps.toUpperCase() == 'N') {
+                  emit(const SplashState.deviceNotRegistered());
+                  return;
+                }
+                if (device.status.toLowerCase() == "error") {
+                  emit(const SplashState.deviceNotRegistered());
+                } else if ((device.expiresIn ?? 0) <= 0) {
+                  secureStorage.delete('access_token');
+                  emit(const SplashState.deviceTokenExpired());
+                } else {
+                  if (token != null) {
+                    secureStorage.write('access_token', token);
+                  }
+
+                  emit(const SplashState.deviceValid());
+                }
+              },
+            );
           } on LocationPermissionException {
             emit(const SplashState.locationPermissionDenied());
           } on AppException catch (e) {
