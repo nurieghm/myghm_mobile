@@ -60,7 +60,7 @@ class _BottomNavItemState extends State<BottomNavItem> {
             children: [
               Icon(
                 widget.icon,
-                color: widget.isActive ? const Color(0xFFF2B705) : Colors.grey,
+                color: widget.isActive ? const Color(0xFFF2B705) : Colors.black,
                 size: Dimension.style28,
               ),
               SizedBox(height: Dimension.height4),
@@ -70,7 +70,7 @@ class _BottomNavItemState extends State<BottomNavItem> {
                   fontSize: Dimension.radius12,
                   color: widget.isActive
                       ? const Color(0xFFF2B705)
-                      : Colors.grey,
+                      : Colors.black,
                 ),
               ),
             ],

@@ -3,8 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:myghm_mobile/core/design_system/themes/pallet.dart';
 import 'package:myghm_mobile/core/design_system/themes/textstyles.dart';
-
-import '../../../../../core/design_system/themes/dimension.dart';
+import 'package:myghm_mobile/core/design_system/themes/dimension.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -22,243 +21,290 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: true,
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              flex: 3,
-              child: Center(
-                child: Image.asset(
-                  'assets/icon/icon.png',
-                  width: 200.w,
-                  height: 200.w,
-                  fit: BoxFit.contain,
+      body: Stack(
+        children: [
+          SafeArea(
+            child: Column(
+              children: [
+                SizedBox(height: 40.h),
+                Center(
+                  child: Image.asset(
+                    'assets/icon/icon.png',
+                    width: 200.w,
+                    height: 200.w,
+                    fit: BoxFit.contain,
+                  ),
                 ),
-              ),
+              ],
             ),
+          ),
 
-            Expanded(
-              flex: 5,
-              child: Container(
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(
-                  horizontal: Dimension.width24,
-                  vertical: Dimension.height32,
-                ),
+          DraggableScrollableSheet(
+            initialChildSize: 0.60,
+            minChildSize: 0.60,
+            maxChildSize: 0.80,
+            snap: true,
+            snapSizes: const [0.60, 0.80],
+            builder: (context, scrollController) {
+              return Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(Dimension.radius32),
-                    topRight: Radius.circular(Dimension.radius32),
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(Dimension.radius32),
                   ),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                       color: Colors.black12,
-                      blurRadius: 10,
-                      offset: Offset(0, -2),
+                      blurRadius: 12,
+                      offset: Offset(0, -4),
                     ),
                   ],
                 ),
-                child: SingleChildScrollView(
-                  keyboardDismissBehavior:
-                      ScrollViewKeyboardDismissBehavior.onDrag,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        "Register",
-                        textAlign: TextAlign.center,
-                        style: TextStyles.textXlBold,
-                      ),
+                child: Column(
+                  children: [
+                    SizedBox(height: 12),
 
-                      SizedBox(height: Dimension.height32),
-
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: "NIP",
-                          labelStyle: TextStyles.textSmRegular,
-                          floatingLabelStyle: TextStyle(color: Pallet.black),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                              Dimension.radius16,
-                            ),
-                            borderSide: BorderSide(color: Pallet.black),
-                          ),
-
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                              Dimension.radius16,
-                            ),
-                            borderSide: BorderSide(
-                              color: Color(0xFFF2B705),
-                              width: 1.5.w,
-                            ),
-                          ),
+                    Center(
+                      child: Container(
+                        width: 48,
+                        height: 5,
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade400,
+                          borderRadius: BorderRadius.circular(3),
                         ),
                       ),
-                      SizedBox(height: Dimension.height16),
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: "Email",
-                          labelStyle: TextStyles.textSmRegular,
-                          floatingLabelStyle: TextStyle(color: Pallet.black),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                              Dimension.radius16,
-                            ),
-                            borderSide: BorderSide(color: Pallet.black),
-                          ),
+                    ),
 
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                              Dimension.radius16,
-                            ),
-                            borderSide: BorderSide(
-                              color: Color(0xFFF2B705),
-                              width: 1.5.w,
-                            ),
-                          ),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        controller: scrollController,
+                        keyboardDismissBehavior:
+                            ScrollViewKeyboardDismissBehavior.onDrag,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: Dimension.width24,
+                          vertical: Dimension.height32,
                         ),
-                      ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Text(
+                              "Register",
+                              textAlign: TextAlign.center,
+                              style: TextStyles.textXlBold,
+                            ),
 
-                      SizedBox(height: Dimension.height16),
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: "No Hp",
-                          labelStyle: TextStyles.textSmRegular,
-                          floatingLabelStyle: TextStyle(color: Pallet.black),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                              Dimension.radius16,
-                            ),
-                            borderSide: BorderSide(color: Pallet.black),
-                          ),
+                            SizedBox(height: Dimension.height32),
 
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                              Dimension.radius16,
-                            ),
-                            borderSide: BorderSide(
-                              color: Color(0xFFF2B705),
-                              width: 1.5.w,
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      SizedBox(height: Dimension.height16),
-
-                      TextField(
-                        obscureText: _isPasswordHidden,
-                        decoration: InputDecoration(
-                          labelText: "Password",
-                          labelStyle: TextStyles.textSmRegular,
-                          floatingLabelStyle: TextStyle(color: Pallet.black),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                              Dimension.radius16,
-                            ),
-                            borderSide: BorderSide(color: Pallet.black),
-                          ),
-
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                              Dimension.radius16,
-                            ),
-                            borderSide: BorderSide(
-                              color: Color(0xFFF2B705),
-                              width: 1.5.w,
-                            ),
-                          ),
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              _isPasswordHidden
-                                  ? Icons.visibility_off
-                                  : Icons.visibility,
-                              size: Dimension.style24,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _isPasswordHidden = !_isPasswordHidden;
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-
-                      SizedBox(height: Dimension.height16),
-
-                      TextField(
-                        obscureText: _isRePasswordHidden,
-                        decoration: InputDecoration(
-                          labelText: "RePassword",
-                          labelStyle: TextStyles.textSmRegular,
-                          floatingLabelStyle: TextStyle(color: Pallet.black),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                              Dimension.radius16,
-                            ),
-                            borderSide: BorderSide(color: Pallet.black),
-                          ),
-
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                              Dimension.radius16,
-                            ),
-                            borderSide: BorderSide(
-                              color: Color(0xFFF2B705),
-                              width: 1.5.w,
-                            ),
-                          ),
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              _isRePasswordHidden
-                                  ? Icons.visibility_off
-                                  : Icons.visibility,
-                              size: Dimension.style24,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _isRePasswordHidden = !_isRePasswordHidden;
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-
-                      SizedBox(height: Dimension.height24),
-
-                      SizedBox(
-                        height: Dimension.height48,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            context.go("/login");
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFFF2B705),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                Dimension.radius12,
+                            // ================= NIP =================
+                            TextField(
+                              decoration: InputDecoration(
+                                labelText: "NIP",
+                                labelStyle: TextStyles.textSmRegular,
+                                floatingLabelStyle: const TextStyle(
+                                  color: Pallet.black,
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    Dimension.radius16,
+                                  ),
+                                  borderSide: const BorderSide(
+                                    color: Pallet.black,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    Dimension.radius16,
+                                  ),
+                                  borderSide: BorderSide(
+                                    color: const Color(0xFFF2B705),
+                                    width: 1.5.w,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                          child: Text(
-                            "Register",
-                            style: TextStyle(
-                              fontSize: Dimension.style16,
-                              color: Colors.white,
+
+                            SizedBox(height: Dimension.height16),
+
+                            TextField(
+                              decoration: InputDecoration(
+                                labelText: "Email",
+                                labelStyle: TextStyles.textSmRegular,
+                                floatingLabelStyle: const TextStyle(
+                                  color: Pallet.black,
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    Dimension.radius16,
+                                  ),
+                                  borderSide: const BorderSide(
+                                    color: Pallet.black,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    Dimension.radius16,
+                                  ),
+                                  borderSide: BorderSide(
+                                    color: const Color(0xFFF2B705),
+                                    width: 1.5.w,
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
+
+                            SizedBox(height: Dimension.height16),
+
+                            TextField(
+                              decoration: InputDecoration(
+                                labelText: "No Hp",
+                                labelStyle: TextStyles.textSmRegular,
+                                floatingLabelStyle: const TextStyle(
+                                  color: Pallet.black,
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    Dimension.radius16,
+                                  ),
+                                  borderSide: const BorderSide(
+                                    color: Pallet.black,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    Dimension.radius16,
+                                  ),
+                                  borderSide: BorderSide(
+                                    color: const Color(0xFFF2B705),
+                                    width: 1.5.w,
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            SizedBox(height: Dimension.height16),
+
+                            TextField(
+                              obscureText: _isPasswordHidden,
+                              decoration: InputDecoration(
+                                labelText: "Password",
+                                labelStyle: TextStyles.textSmRegular,
+                                floatingLabelStyle: const TextStyle(
+                                  color: Pallet.black,
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    Dimension.radius16,
+                                  ),
+                                  borderSide: const BorderSide(
+                                    color: Pallet.black,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    Dimension.radius16,
+                                  ),
+                                  borderSide: BorderSide(
+                                    color: const Color(0xFFF2B705),
+                                    width: 1.5.w,
+                                  ),
+                                ),
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    _isPasswordHidden
+                                        ? Icons.visibility_off
+                                        : Icons.visibility,
+                                    size: Dimension.style24,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      _isPasswordHidden = !_isPasswordHidden;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ),
+
+                            SizedBox(height: Dimension.height16),
+
+                            TextField(
+                              obscureText: _isRePasswordHidden,
+                              decoration: InputDecoration(
+                                labelText: "RePassword",
+                                labelStyle: TextStyles.textSmRegular,
+                                floatingLabelStyle: const TextStyle(
+                                  color: Pallet.black,
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    Dimension.radius16,
+                                  ),
+                                  borderSide: const BorderSide(
+                                    color: Pallet.black,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    Dimension.radius16,
+                                  ),
+                                  borderSide: BorderSide(
+                                    color: const Color(0xFFF2B705),
+                                    width: 1.5.w,
+                                  ),
+                                ),
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    _isRePasswordHidden
+                                        ? Icons.visibility_off
+                                        : Icons.visibility,
+                                    size: Dimension.style24,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      _isRePasswordHidden =
+                                          !_isRePasswordHidden;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ),
+
+                            SizedBox(height: Dimension.height32),
+
+                            SizedBox(
+                              height: Dimension.height48,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  context.go("/login");
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFFF2B705),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                      Dimension.radius12,
+                                    ),
+                                  ),
+                                ),
+                                child: Text(
+                                  "Register",
+                                  style: TextStyle(
+                                    fontSize: Dimension.style16,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            SizedBox(height: 16),
+                          ],
                         ),
                       ),
-                      SizedBox(height: Dimension.height24),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ),
-            ),
-          ],
-        ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }

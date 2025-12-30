@@ -25,20 +25,31 @@ class AppNavigationShell extends StatelessWidget {
         onPressed: () => _go(0),
         backgroundColor: Color(0xFFF2B705),
         elevation: 4,
-        child: Icon(Icons.home, size: Dimension.style28, color: Colors.white),
+        child: Icon(Icons.home, size: Dimension.style28, color: Colors.black),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
       bottomNavigationBar: BottomAppBar(
+        padding: EdgeInsets.all(0),
         shape: const CircularNotchedRectangle(),
         notchMargin: 8.h,
-        child: SizedBox(
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.1),
+                blurRadius: 8,
+                offset: const Offset(0, -2),
+              ),
+            ],
+          ),
           height: Dimension.height60,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               BottomNavItem(
-                icon: Icons.favorite_border,
+                icon: Icons.favorite,
                 label: 'Wishlist',
                 isActive: navigationShell.currentIndex == 1,
                 onTap: () => _go(1),
