@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/design_system/themes/dimension.dart';
@@ -114,8 +113,6 @@ class PersonalDataPage extends StatelessWidget {
     );
   }
 
-  // ================= PROFILE HEADER =================
-
   Widget _profileHeader() {
     return Card(
       color: _cardColor,
@@ -171,8 +168,6 @@ class PersonalDataPage extends StatelessWidget {
       ),
     );
   }
-
-  // ================= SECTION =================
 
   Widget _section({required String title, required List<Widget> children}) {
     return Card(

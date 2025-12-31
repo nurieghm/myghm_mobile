@@ -31,7 +31,6 @@ class ProfileImageBloc extends Bloc<ProfileImageEvent, ProfileImageState> {
     });
   }
 
-  /// ================= LOAD =================
   Future<void> _onLoadSaved(Emitter<ProfileImageState> emit) async {
     final file = await loadProfileImage();
     if (file != null) {
@@ -40,17 +39,14 @@ class ProfileImageBloc extends Bloc<ProfileImageEvent, ProfileImageState> {
     }
   }
 
-  /// ================= PICK CAMERA =================
   Future<void> _onPickCamera(Emitter<ProfileImageState> emit) async {
     await _pick(() => pickProfileImage.fromCamera(), emit);
   }
 
-  /// ================= PICK GALLERY =================
   Future<void> _onPickGallery(Emitter<ProfileImageState> emit) async {
     await _pick(() => pickProfileImage.fromGallery(), emit);
   }
 
-  /// ================= COMMON PICK =================
   Future<void> _pick(
     Future<File?> Function() picker,
     Emitter<ProfileImageState> emit,
@@ -59,7 +55,6 @@ class ProfileImageBloc extends Bloc<ProfileImageEvent, ProfileImageState> {
 
     final file = await picker();
 
-    /// ❗ USER CANCEL
     if (file == null) {
       if (_currentImage != null) {
         emit(ProfileImageState.success(_currentImage!));
