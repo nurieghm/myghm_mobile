@@ -191,4 +191,5 @@ class Dimension {
   static double radius30 = 30.r;
   static double radius32 = 32.r;
   static double radius36 = 36.r;
+  static double radius40 = 40.r;
 }

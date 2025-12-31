@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 import 'package:myghm_mobile/core/design_system/themes/dimension.dart';
 import 'package:myghm_mobile/core/design_system/themes/pallet.dart';
+import '../bloc/profile_image_bloc.dart';
 import '../widgets/profile_header.dart';
 import '../widgets/profile_menu_item.dart';
 
@@ -21,7 +25,7 @@ class ProfilePage extends StatelessWidget {
             ProfileMenuItem(
               icon: Icons.person_outline,
               title: 'Data Pribadi',
-              onTap: () {},
+              onTap: () => context.push("/profile/personal_data"),
             ),
             ProfileMenuItem(
               icon: Icons.family_restroom_outlined,

@@ -15,6 +15,14 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:logger/logger.dart' as _i974;
 
+import '../../features/profile/domain/usecases/load_profile_image_usecase.dart'
+    as _i919;
+import '../../features/profile/domain/usecases/pick_profile_image_usecase.dart'
+    as _i469;
+import '../../features/profile/domain/usecases/save_profile_image_usecase.dart'
+    as _i93;
+import '../../features/profile/presentation/bloc/profile_image_bloc.dart'
+    as _i171;
 import '../../features/splash/data/datasources/check_app_version_datasource.dart'
     as _i241;
 import '../../features/splash/data/datasources/check_connection_server_datasource.dart'
@@ -32,9 +40,13 @@ import '../../features/splash/domain/usecases/check_connection_server_usecase.da
     as _i282;
 import '../../features/splash/domain/usecases/check_device_usecase.dart'
     as _i565;
+import '../../features/splash/domain/usecases/check_internet_usecase.dart'
+    as _i860;
 import '../../features/splash/domain/usecases/check_location_permission_usecase.dart'
     as _i247;
 import '../../features/splash/presentation/bloc/splash_bloc.dart' as _i442;
+import '../device/image_picker_device.dart' as _i184;
+import '../device/profile_image_storage_device.dart' as _i221;
 import '../services/geolocation/geolocation_service.dart' as _i591;
 import '../services/http/http_client_service.dart' as _i274;
 import '../services/http/internet_connection_service.dart' as _i1024;
@@ -59,19 +71,44 @@ _i174.GetIt $initGetIt(
     () => _i247.CheckLocationPermissionUseCase(),
   );
   gh.factory<_i361.Dio>(() => registerModule.dio(), instanceName: 'base');
+  gh.lazySingleton<_i184.ImagePickerDevice>(
+    () => _i184.ImagePickerDeviceImpl(),
+  );
   gh.lazySingleton<_i591.GeolocationService>(
     () => _i591.GeolocationServiceImpl(),
   );
   gh.factory<bool>(() => registerModule.showDebug, instanceName: 'show_debug');
+  gh.lazySingleton<_i221.ProfileImageStorage>(
+    () => _i221.ProfileImageStorageImpl(),
+  );
   gh.lazySingleton<_i1024.InternetConnectionService>(
     () => _i1024.InternetConnectionServiceImpl(
       connectivity: gh<_i895.Connectivity>(),
     ),
   );
+  gh.lazySingleton<_i469.PickProfileImageUsecase>(
+    () => _i469.PickProfileImageUsecase(gh<_i184.ImagePickerDevice>()),
+  );
   gh.lazySingleton<_i327.LoggerService>(
     () => _i327.LoggerServiceImpl(
       logger: gh<_i974.Logger>(),
       showDebug: gh<bool>(instanceName: 'show_debug'),
+    ),
+  );
+  gh.lazySingleton<_i860.CheckInternetUseCase>(
+    () => _i860.CheckInternetUseCase(gh<_i1024.InternetConnectionService>()),
+  );
+  gh.lazySingleton<_i919.LoadProfileImageUsecase>(
+    () => _i919.LoadProfileImageUsecase(gh<_i221.ProfileImageStorage>()),
+  );
+  gh.lazySingleton<_i93.SaveProfileImageUsecase>(
+    () => _i93.SaveProfileImageUsecase(gh<_i221.ProfileImageStorage>()),
+  );
+  gh.factory<_i171.ProfileImageBloc>(
+    () => _i171.ProfileImageBloc(
+      gh<_i919.LoadProfileImageUsecase>(),
+      gh<_i469.PickProfileImageUsecase>(),
+      gh<_i93.SaveProfileImageUsecase>(),
     ),
   );
   gh.lazySingleton<_i274.HttpClientService>(
