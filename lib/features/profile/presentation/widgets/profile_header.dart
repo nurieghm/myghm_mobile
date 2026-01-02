@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:myghm_mobile/core/design_system/themes/dimension.dart';
 import 'package:myghm_mobile/core/design_system/themes/pallet.dart';
 import 'package:myghm_mobile/core/design_system/themes/textstyles.dart';
@@ -8,7 +9,6 @@ import 'package:myghm_mobile/core/design_system/themes/textstyles.dart';
 import '../bloc/profile_image_bloc.dart';
 import '../bloc/profile_image_event.dart';
 import '../bloc/profile_image_state.dart';
-import '../pages/pp_view_page.dart';
 
 class ProfileHeader extends StatefulWidget {
   const ProfileHeader({super.key});
@@ -27,30 +27,23 @@ class _ProfileHeaderState extends State<ProfileHeader> {
       listener: (context, state) {
         state.when(
           initial: () {
-            setState(() {
-              _isLoading = false;
-            });
+            _isLoading = false;
           },
           loading: () {
-            setState(() {
-              _isLoading = true;
-            });
+            _isLoading = true;
           },
           success: (file) {
-            setState(() {
-              _isLoading = false;
-              _imageFile = file;
-            });
+            _isLoading = false;
+            _imageFile = file;
           },
           failure: (message) {
-            setState(() {
-              _isLoading = false;
-            });
+            _isLoading = false;
             ScaffoldMessenger.of(
               context,
             ).showSnackBar(SnackBar(content: Text(message)));
           },
         );
+        setState(() {});
       },
       child: SizedBox(
         height: 250,
@@ -153,6 +146,7 @@ class _ProfileHeaderState extends State<ProfileHeader> {
   void _showImagePickerOptions(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      clipBehavior: Clip.antiAlias,
       builder: (_) {
         return SafeArea(
           child: Wrap(
@@ -164,7 +158,7 @@ class _ProfileHeaderState extends State<ProfileHeader> {
                   context.read<ProfileImageBloc>().add(
                     const ProfileImageEvent.pickFromCamera(),
                   );
-                  Navigator.of(context).pop();
+                  Navigator.pop(context);
                 },
               ),
               ListTile(
@@ -174,16 +168,16 @@ class _ProfileHeaderState extends State<ProfileHeader> {
                   context.read<ProfileImageBloc>().add(
                     const ProfileImageEvent.pickFromGallery(),
                   );
-                  Navigator.of(context).pop();
+                  Navigator.pop(context);
                 },
               ),
               ListTile(
-                leading: const Icon(Icons.photo_library),
+                leading: const Icon(Icons.visibility),
                 title: const Text('Lihat Foto'),
                 onTap: () {
-                  Navigator.of(context).pop();
+                  Navigator.pop(context);
                   if (_imageFile != null) {
-                    _showFullImage(context, _imageFile!);
+                    context.push('/profile_photo_view');
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
@@ -197,14 +191,6 @@ class _ProfileHeaderState extends State<ProfileHeader> {
           ),
         );
       },
-    );
-  }
-
-  void _showFullImage(BuildContext context, File imageFile) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => ProfilePhotoViewPage(imageFile: imageFile),
-      ),
     );
   }
 }

@@ -1,24 +1,34 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
-import 'package:myghm_mobile/features/profile/presentation/pages/personal_data_page.dart';
-import 'package:myghm_mobile/form_page.dart';
+import 'package:flutter/material.dart';
+import 'package:myghm_mobile/features/profile/presentation/pages/family_data_page.dart';
 
-import '../../features/profile/presentation/bloc/profile_image_bloc.dart';
-import '../../features/profile/presentation/bloc/profile_image_event.dart';
-import '../../features/profile/presentation/pages/profile_page.dart';
-import '../shell/app_navigation_shell.dart';
-import '../../data_page.dart';
-import '../../features/splash/presentation/pages/splash_page.dart';
-import '../../home_page.dart';
-import '../../features/auth/login/presentation/pages/login_page.dart';
-import '../../features/auth/register/presentation/pages/register_page.dart';
-import '../../features/salary_slip/presentation/pages/salary_slip_page.dart';
+import 'package:myghm_mobile/features/profile/presentation/pages/personal_data_page.dart';
+import 'package:myghm_mobile/features/profile/presentation/pages/profile_page.dart';
+
+import 'package:myghm_mobile/features/splash/presentation/pages/splash_page.dart';
+import 'package:myghm_mobile/features/auth/login/presentation/pages/login_page.dart';
+import 'package:myghm_mobile/features/auth/register/presentation/pages/register_page.dart';
+import 'package:myghm_mobile/features/salary_slip/presentation/pages/salary_slip_page.dart';
+
+import 'package:myghm_mobile/navigation/shell/app_navigation_shell.dart';
+
+import 'package:myghm_mobile/home_page.dart';
+import 'package:myghm_mobile/form_page.dart';
+import 'package:myghm_mobile/data_page.dart';
+
+import '../../features/profile/presentation/flow/profile_flow.dart';
+import '../../features/profile/presentation/pages/pp_view_page.dart';
 
 class RoutesConfig {
+  static final _rootNavigatorKey = GlobalKey<NavigatorState>();
+
   static final appRouter = GoRouter(
+    navigatorKey: _rootNavigatorKey,
     initialLocation: '/splash',
     routes: [
+      /// ======================
+      /// AUTH & SPLASH
+      /// ======================
       GoRoute(path: '/splash', builder: (context, state) => const SplashPage()),
       GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
       GoRoute(
@@ -26,20 +36,15 @@ class RoutesConfig {
         builder: (context, state) => const RegisterPage(),
       ),
 
+      /// ======================
+      /// MAIN SHELL (BOTTOM NAV)
+      /// ======================
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (_) =>
-                    GetIt.I<ProfileImageBloc>()
-                      ..add(const ProfileImageEvent.loadSavedImage()),
-              ),
-            ],
-            child: AppNavigationShell(navigationShell: navigationShell),
-          );
+          return AppNavigationShell(navigationShell: navigationShell);
         },
         branches: [
+          /// HOME
           StatefulShellBranch(
             routes: [
               GoRoute(
@@ -48,6 +53,8 @@ class RoutesConfig {
               ),
             ],
           ),
+
+          /// FORM
           StatefulShellBranch(
             routes: [
               GoRoute(
@@ -56,6 +63,8 @@ class RoutesConfig {
               ),
             ],
           ),
+
+          /// DATA
           StatefulShellBranch(
             routes: [
               GoRoute(
@@ -64,6 +73,8 @@ class RoutesConfig {
               ),
             ],
           ),
+
+          /// SALARY
           StatefulShellBranch(
             routes: [
               GoRoute(
@@ -72,21 +83,45 @@ class RoutesConfig {
               ),
             ],
           ),
+
+          /// PROFILE
           StatefulShellBranch(
             routes: [
               GoRoute(
                 path: '/profile',
-                builder: (context, state) => const ProfilePage(),
-                routes: [
-                  GoRoute(
-                    path: '/personal_data',
-                    builder: (context, state) => const PersonalDataPage(),
-                  ),
-                ],
+                builder: (context, state) {
+                  return ProfileFlow(child: const ProfilePage());
+                },
               ),
             ],
           ),
         ],
+      ),
+
+      /// ======================
+      /// DETAIL PAGE (NO NAVBAR)
+      /// ======================
+
+      /// Profile
+      GoRoute(
+        parentNavigatorKey: _rootNavigatorKey,
+        path: '/personal_data',
+        builder: (context, state) {
+          return ProfileFlow(child: const PersonalDataPage());
+        },
+      ),
+      GoRoute(
+        path: '/profile_photo_view',
+        builder: (context, state) {
+          return ProfileFlow(child: ProfilePhotoViewPage());
+        },
+      ),
+      GoRoute(
+        parentNavigatorKey: _rootNavigatorKey,
+        path: '/family_data',
+        builder: (context, state) {
+          return FamilyDataPage();
+        },
       ),
     ],
   );

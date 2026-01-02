@@ -14,6 +14,7 @@ class SalarySlipPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Pallet.primaryScBg,
       appBar: AppBar(
+        centerTitle: false,
         backgroundColor: Pallet.primary,
         elevation: 0,
         title: Text(

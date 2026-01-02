@@ -22,12 +22,12 @@ class ProfilePage extends StatelessWidget {
             ProfileMenuItem(
               icon: Icons.person_outline,
               title: 'Data Pribadi',
-              onTap: () => context.push("/profile/personal_data"),
+              onTap: () => context.push("/personal_data"),
             ),
             ProfileMenuItem(
               icon: Icons.family_restroom_outlined,
               title: 'Data Keluarga',
-              onTap: () {},
+              onTap: () => context.push("/family_data"),
             ),
             ProfileMenuItem(
               icon: Icons.health_and_safety_outlined,
@@ -35,13 +35,13 @@ class ProfilePage extends StatelessWidget {
               onTap: () {},
             ),
             ProfileMenuItem(
-              icon: Icons.lock_reset,
-              title: 'Reset Password',
+              icon: Icons.account_balance_outlined,
+              title: 'Data Bank',
               onTap: () {},
             ),
             ProfileMenuItem(
-              icon: Icons.account_balance_outlined,
-              title: 'Data Bank',
+              icon: Icons.credit_card_outlined,
+              title: 'Data Jenis Kartu',
               onTap: () {},
             ),
             ProfileMenuItem(
@@ -55,11 +55,6 @@ class ProfilePage extends StatelessWidget {
               onTap: () {},
             ),
             ProfileMenuItem(
-              icon: Icons.credit_card_outlined,
-              title: 'Data Jenis Kartu',
-              onTap: () {},
-            ),
-            ProfileMenuItem(
               icon: Icons.badge_outlined,
               title: 'Kartu ID Card',
               onTap: () {},
@@ -67,6 +62,11 @@ class ProfilePage extends StatelessWidget {
             ProfileMenuItem(
               icon: Icons.assignment_outlined,
               title: 'SPT',
+              onTap: () {},
+            ),
+            ProfileMenuItem(
+              icon: Icons.lock_reset,
+              title: 'Reset Password',
               onTap: () {},
             ),
             ProfileMenuItem(

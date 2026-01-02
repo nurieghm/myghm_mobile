@@ -137,7 +137,7 @@ class PersonalDataPage extends StatelessWidget {
                   backgroundImage: image != null ? FileImage(image!) : null,
                   child: image == null
                       ? const Text(
-                          'R',
+                          'A',
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
