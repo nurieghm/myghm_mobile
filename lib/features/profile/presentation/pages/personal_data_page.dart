@@ -104,7 +104,7 @@ class PersonalDataPage extends StatelessWidget {
               ),
               child: const Text(
                 "Update",
-                style: TextStyle(fontSize: 16, color: Colors.white),
+                style: TextStyle(fontSize: 16, color: Colors.black),
               ),
             ),
           ),

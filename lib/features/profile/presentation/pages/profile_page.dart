@@ -37,7 +37,7 @@ class ProfilePage extends StatelessWidget {
             ProfileMenuItem(
               icon: Icons.account_balance_outlined,
               title: 'Data Bank',
-              onTap: () {},
+              onTap: () => context.push("/bank_data"),
             ),
             ProfileMenuItem(
               icon: Icons.credit_card_outlined,
@@ -67,7 +67,7 @@ class ProfilePage extends StatelessWidget {
             ProfileMenuItem(
               icon: Icons.lock_reset,
               title: 'Reset Password',
-              onTap: () {},
+              onTap: () => context.push("/reset_password"),
             ),
             ProfileMenuItem(
               icon: Icons.info_outline,

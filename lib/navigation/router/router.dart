@@ -1,5 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
+import 'package:myghm_mobile/features/auth/password/reset/presentation/pages/reset_password_page.dart';
+import 'package:myghm_mobile/features/profile/presentation/pages/bank_data_page.dart';
 import 'package:myghm_mobile/features/profile/presentation/pages/family_data_page.dart';
 
 import 'package:myghm_mobile/features/profile/presentation/pages/personal_data_page.dart';
@@ -121,6 +123,20 @@ class RoutesConfig {
         path: '/family_data',
         builder: (context, state) {
           return FamilyDataPage();
+        },
+      ),
+      GoRoute(
+        parentNavigatorKey: _rootNavigatorKey,
+        path: '/bank_data',
+        builder: (context, state) {
+          return BankDataPage();
+        },
+      ),
+      GoRoute(
+        parentNavigatorKey: _rootNavigatorKey,
+        path: '/reset_password',
+        builder: (context, state) {
+          return ResetPasswordPage();
         },
       ),
     ],

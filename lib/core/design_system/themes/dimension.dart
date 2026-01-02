@@ -7,6 +7,7 @@ class Dimension {
   static double style5 = 5.sp;
   static double style10 = 10.sp;
   static double style12 = 12.sp;
+  static double style13 = 13.sp;
   static double style14 = 14.sp;
   static double style16 = 16.sp;
   static double style17 = 17.sp;
