@@ -127,7 +127,7 @@ class _ProfileHeaderState extends State<ProfileHeader> {
                         radius: Dimension.radius14,
                         backgroundColor: Pallet.primary,
                         child: Icon(
-                          Icons.edit,
+                          Icons.add_a_photo,
                           size: Dimension.style14,
                           color: Colors.white,
                         ),

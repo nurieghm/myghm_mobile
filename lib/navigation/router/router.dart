@@ -91,9 +91,8 @@ class RoutesConfig {
             routes: [
               GoRoute(
                 path: '/profile',
-                builder: (context, state) {
-                  return ProfileFlow(child: const ProfilePage());
-                },
+                builder: (context, state) =>
+                    ProfileFlow(child: const ProfilePage()),
               ),
             ],
           ),
@@ -104,40 +103,31 @@ class RoutesConfig {
       /// DETAIL PAGE (NO NAVBAR)
       /// ======================
 
-      /// Profile
+      /// PROFILE
       GoRoute(
         parentNavigatorKey: _rootNavigatorKey,
         path: '/personal_data',
-        builder: (context, state) {
-          return ProfileFlow(child: const PersonalDataPage());
-        },
+        builder: (context, state) =>
+            ProfileFlow(child: const PersonalDataPage()),
       ),
       GoRoute(
         path: '/profile_photo_view',
-        builder: (context, state) {
-          return ProfileFlow(child: ProfilePhotoViewPage());
-        },
+        builder: (context, state) => ProfileFlow(child: ProfilePhotoViewPage()),
       ),
       GoRoute(
         parentNavigatorKey: _rootNavigatorKey,
         path: '/family_data',
-        builder: (context, state) {
-          return FamilyDataPage();
-        },
+        builder: (context, state) => FamilyDataPage(),
       ),
       GoRoute(
         parentNavigatorKey: _rootNavigatorKey,
         path: '/bank_data',
-        builder: (context, state) {
-          return BankDataPage();
-        },
+        builder: (context, state) => BankDataPage(),
       ),
       GoRoute(
         parentNavigatorKey: _rootNavigatorKey,
         path: '/reset_password',
-        builder: (context, state) {
-          return ResetPasswordPage();
-        },
+        builder: (context, state) => ResetPasswordPage(),
       ),
     ],
   );
