@@ -25,10 +25,12 @@ class AbsenBloc extends Bloc<AbsenEvent, AbsenState> {
     try {
       final image = await pickImageUsecase.fromCamera();
 
-      if (image == null) {
+      if (image == null || image.path.isEmpty) {
         emit(const AbsenState.initial());
         return;
       }
+
+      await Future.delayed(const Duration(milliseconds: 300));
 
       await validateFaceUsecase(image);
 

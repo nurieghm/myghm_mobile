@@ -15,17 +15,11 @@ class ValidateFaceUsecase {
     final faces = await device.detectFace(image);
 
     if (faces.isEmpty) {
-      throw const DefaultAppException(
-        code: 'NO_FACE_DETECTED',
-        message: 'Wajah tidak terdeteksi, pastikan wajah terlihat jelas',
-      );
+      throw FaceDetectionException.noFaceDetected();
     }
 
     if (faces.length > 1) {
-      throw const DefaultAppException(
-        code: 'MULTIPLE_FACE_DETECTED',
-        message: 'Terdeteksi lebih dari satu wajah',
-      );
+      throw FaceDetectionException.multipleFaceDetected();
     }
   }
 }

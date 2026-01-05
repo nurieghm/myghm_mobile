@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:myghm_mobile/features/absen/presentation/widgets/error_dialog.dart';
 
 import '../../../../core/design_system/themes/dimension.dart';
 import '../../../../core/design_system/themes/pallet.dart';
@@ -26,8 +27,6 @@ class AbsenPage extends StatelessWidget {
             style: TextStyle(color: Colors.black, fontSize: Dimension.style22),
           ),
         ),
-
-        // 🔽 LISTENER KHUSUS ERROR
         body: BlocListener<AbsenBloc, AbsenState>(
           listener: (context, state) {
             state.maybeWhen(
@@ -35,43 +34,13 @@ class AbsenPage extends StatelessWidget {
                 showDialog(
                   context: context,
                   barrierDismissible: false,
-                  builder: (_) => AlertDialog(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    title: Column(
-                      children: const [
-                        Icon(Icons.error_outline, size: 48, color: Colors.red),
-                        SizedBox(height: 8),
-                        Text('Foto Tidak Valid', textAlign: TextAlign.center),
-                      ],
-                    ),
-                    content: Text(message, textAlign: TextAlign.center),
-                    actions: [
-                      SizedBox(
-                        width: double.infinity,
-                        height: 45,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                          child: const Text('OK'),
-                        ),
-                      ),
-                    ],
-                  ),
+                  builder: (_) =>
+                      ErrorDialog(title: 'Foto Tidak Valid', message: message),
                 );
               },
               orElse: () {},
             );
           },
-
-          // 🔽 UI UTAMA
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: BlocBuilder<AbsenBloc, AbsenState>(
@@ -117,7 +86,7 @@ class AbsenPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 24),
 
-                    /// 📸 CARD AMBIL FOTO
+                    /// CARD FOTO
                     GestureDetector(
                       onTap: isLoading
                           ? null
@@ -141,7 +110,7 @@ class AbsenPage extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: const [
                                   Icon(
-                                    Icons.camera_alt_outlined,
+                                    Icons.add_a_photo_outlined,
                                     size: 48,
                                     color: Colors.grey,
                                   ),
@@ -165,7 +134,7 @@ class AbsenPage extends StatelessWidget {
 
                     const Spacer(),
 
-                    /// 🚀 BUTTON UPLOAD
+                    /// BUTTON UPLOAD
                     SizedBox(
                       width: double.infinity,
                       height: 50,
