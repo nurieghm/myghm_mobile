@@ -20,14 +20,14 @@ class SplashPage extends StatelessWidget {
       child: BlocListener<SplashBloc, SplashState>(
         listener: (context, state) {
           state.whenOrNull(
-            success: () => context.go('/home'),
+            success: () => context.go('/absen'),
             noInternet: () => SplashDialog.noInternet(context),
             serverDown: () => SplashDialog.serverDown(context),
             locationPermissionDenied: () =>
                 SplashDialog.locationPermission(context),
             deviceNotRegistered: () => context.go('/register'),
             deviceTokenExpired: () => context.go('/login'),
-            deviceValid: () => context.go('/home'),
+            deviceValid: () => context.go('/absen'),
             failure: (exception) {
               if (exception.message.contains('Update aplikasi wajib')) {
                 SplashDialog.updateApp(context);
